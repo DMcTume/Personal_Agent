@@ -22,6 +22,9 @@ Multimodal AI agent that will hopefully be used in embedded systems
         - check out what ollama has in terms of "thinking" models: https://docs.ollama.com/capabilities/thinking
 
     - look at these refs:
+
+        - can this just be used to do the work for me???: https://docs.langchain.com/oss/javascript/langchain/agents
+
         - for passing messages (go back and read this, might be helpful): https://docs.langchain.com/oss/javascript/langchain/messages
         - for short-term memory (go back and re-implement using library): https://docs.langchain.com/oss/javascript/langchain/short-term-memory
         - for tools: https://docs.langchain.com/oss/javascript/langchain/tools

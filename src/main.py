@@ -1,52 +1,24 @@
+from langchain.agents import create_agent 
+
 from langchain_ollama.llms import OllamaLLM
-from langchain_core.prompts import ChatPromptTemplate
-from collections import deque
+from langgraph.checkpoint.memory import InMemorySaver
+from langchain_core.utils.uuid import uuid7
 
-import globals
-import mem_manager as mm
 
-model = OllamaLLM(model="llama3.2")
+model = OllamaLLM(model = "llama3.2", checkpointer=InMemorySaver())
+agent = create_agent(model = model, tools = [])
 
-# Read in default personality:
+config = {"configurable": {"thread_id": str(uuid7())}}
 
-personality = ""
+while True:
 
-with open(globals.default_personality_path) as file:
-    personality += file.read()
+    user_input = str(input(">>> "))
 
-# Prompt loop:
-dialogue_record = deque([], maxlen = globals.dialogue_quota)
+    result = agent.invoke(
+        {"messages": [{"role": "user",
+                      "content": user_input}]}, config = config,)
+    
+    print(result["messages"][1].content)
+    
 
-while(True):
-
-    curr_input = input(">>> ")
-
-    if (curr_input == "q"): break
-
-    else:
-        
-        past_info = ""
-        
-        for user_input, agent_output in dialogue_record:
-            past_info += "Me:\n" + user_input + "\n" + "You:\n" + agent_output + "\n"
-
-        # template = "" + past_info + personality + "\n" + user_input
-
-        template = """
-            Here is your personality: {personality}
-            Here is our past conversation: {past_info}
-            Here is what I'm saying to you right now: {curr_input}
-        """
-
-        # print("\n",template,"\n")
-
-        prompt = ChatPromptTemplate.from_template(template)
-
-        chain = prompt | model 
-        result = chain.invoke({"past_info": past_info, "personality": personality, "curr_input": curr_input})
-        print(result)
-
-        # Save last exchange:
-        dialogue_record.append((curr_input, result))
-        
-        # print("\n", dialogue_record, "\n")
+    
