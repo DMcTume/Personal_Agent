@@ -4,12 +4,15 @@ from langchain_ollama.llms import OllamaLLM
 from langgraph.checkpoint.memory import InMemorySaver
 from langchain_core.utils.uuid import uuid7
 
+# For memory trimming middleware
 from langchain.messages import RemoveMessage
 from langgraph.graph.message import REMOVE_ALL_MESSAGES
 from langchain.agents.middleware import before_model
 from langgraph.runtime import Runtime
 from langchain_core.runnables import RunnableConfig
 from typing import Any
+
+
 
 # Middleware for trimming memory
 

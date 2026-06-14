@@ -11,4 +11,4 @@
 python -m venv agent_env && \
 source agent_env/Scripts/activate && \
 python -m pip install --upgrade pip && \
-pip install langchain langchain-ollama langchain-chroma pandas
+pip install langchain langchain-ollama langchain-chroma pandas python-weather json urllib.request
